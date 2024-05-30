@@ -1,4 +1,4 @@
-//coded by sreeraj
+  //coded by sreeraj
           
 
 var meaning=document.querySelector("#meaning");
