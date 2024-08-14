@@ -76,12 +76,13 @@ body{
   padding:12px 8px;
   position:absolute;
   left:74.9%;
-  top:18.4%;
+  top:19%;
   font-size:2.5rem;
-  background: repeating-conic-gradient(red,yellow,orange,violet,green,skyblue);
+  background-color:cyan;
   border-radius:17px;
   box-shadow:0 0 0 2px cyan;
-  color:skyblue;
+  color:black;
+  box-shadow:0 0 2em cyan;
   cursor:pointer;
 }
 
@@ -93,18 +94,18 @@ body{
 
  #meaning{
   color:black;
-  font-size:1.3rem;
+  font-size:20px;
   padding:25px;
   justify-content: space-between;
   letter-spacing:10px;
-  line-height:40px;
+  line-height:28px;
  }
 
  #word{
   color:black;
   font-size:2.3rem;
-  padding:25px;
+  padding:30px;
   letter-spacing:10px;
-  line-height:10px;
+  line-height:7px;
 
  }
