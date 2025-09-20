@@ -1,56 +1,50 @@
-  //coded by sreeraj
-          
+// Coded by Sreeraj
 
-var meaning=document.querySelector("#meaning");
-var word=document.querySelector("#word");
+const input = document.querySelector("#input");
+const word = document.querySelector("#word");
+const meaning = document.querySelector("#meaning");
+const searchbtn = document.querySelector("#searchbtn");
 
-var searchbutton=document.querySelector("#searchbtn").addEventListener("click",GetMeaning);
-var speech=new SpeechSynthesisUtterance();
+const speech = new SpeechSynthesisUtterance();
 
+searchbtn.addEventListener("click", getMeaning);
 
-function GetMeaning(){
-  
-  var input=document.querySelector("#input");
-  var value=input.value;
-  word.innerHTML=value;
+function getMeaning() {
+    const value = input.value.trim();
 
-  if(value==""){
-    word.innerHTML=null
-    meaning.innerHTML=null
-  }
+    if (value === "") {
+        word.textContent = "";
+        meaning.textContent = "";
+        return;
+    }
 
+    word.textContent = value;
 
-  var api=`https://api.dictionaryapi.dev/api/v2/entries/en/${value}`
+    const api = `https://api.dictionaryapi.dev/api/v2/entries/en/${value}`;
 
-   //fetch is used to get data from the server with api
+    fetch(api)
+        .then(response => response.json())
+        .then(data => {
+            if (data.title) {
+                // Word not found
+                word.textContent = "Not found";
+                meaning.innerHTML = "Please enter a correct word.<br>ആ വാക്ക് കണ്ടെത്താൻ കഴിയുന്നില്ല.ശരിയായ വാക്ക് നൽകുക";
+                return;
+            }
 
-  fetch(api).then((response)=>response.json())
+            const definition = data[0].meanings[0].definitions[0].definition;
+            meaning.textContent = definition;
 
-     .then((dataoutput)=>{
-      console.log(dataoutput)
-
-     meaning.innerHTML=dataoutput[0].meanings[0].definitions[0].definition;
-
-
-     speech.text=`Meaning of ${value}. ${dataoutput[0].meanings[0].definitions[0].definition}`
-
-     speech.rate=0.8;
-     speech.pitch=0.8;
-     speech.lang="en-US"||"en-GB"||"en-UK"
-     speechSynthesis.speak(speech)
-
-
-
-
-
-     }).catch((error)=>{
-      word .innerHTML="Not found or wrong word" 
-      meaning.innerHTML="Error Occured Not found that word plese enter correct word<br>ആ വാക്ക് കണ്ടെത്താൻ കഴിയുന്നില്ല.ശരിയായ വാക്ക് നൽകുക"
-    
-      
-
-     })
-
-
+            // Speak the definition
+            speech.text = `Meaning of ${value}: ${definition}`;
+            speech.rate = 0.8;
+            speech.pitch = 0.8;
+            speech.lang = "en-US";
+            window.speechSynthesis.speak(speech);
+        })
+        .catch(error => {
+            word.textContent = "Error";
+            meaning.innerHTML = "Something went wrong. Please try again.";
+            console.error(error);
+        });
 }
-
